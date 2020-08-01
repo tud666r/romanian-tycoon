@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>GTA România</title>
+
+    <!-- CSS stylesheet-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <!-- Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body style="background-image: url('assets/images/Ferentari.jpg'); background-size: cover; background-repeat: no-repeat;">
+
+    <div class="container mt-5">
+      <div id="new-life">
+        <h1 class="text-light">Viața de român</h1>
+        <p class="text-light">Bun venit în România, țara tuturor posibilităților! Sperăm că nu te vei simți bine!</p>
+
+        <br>
+
+        <div class="form-group">
+          <label for="inpPlayerFName" class="text-light">Prenumele personajului tău</label>
+          <input type="text" id="inpPlayerFName" class="form-control" style="max-width: 20rem;">
+        </div>
+
+        <div class="form-group">
+          <label for="inpPlayerLName" class="text-light">Numele de familie al personajului tău</label>
+          <input type="text" id="inpPlayerLName" class="form-control" style="max-width: 20rem;">
+        </div>
+
+        <div class="form-group">
+          <label for="selPlayerGender" class="text-light">Sexul personajului tău</label>
+          <select id="selPlayerGender" class="form-control" style="max-width: 20rem;">
+            <option value="1">Băiat</option>
+            <option value="2">Fată</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="selPlayerBirthPlace" class="text-light">Locul nașterii personajului tău</label>
+          <select id="selPlayerBirthPlace" class="form-control" style="max-width: 20rem;">
+            <option value="0">București, Dorobanți</option>
+            <option value="1">București, Titan</option>
+            <option value="2">București, Ferentari</option>
+            <option value="3">București, Colentina</option>
+            <option value="4">București, Pantelimon</option>
+            <option value="5">Cluj-Napoca, jud. Cluj</option>
+            <option value="6">Bârlad, jud. Vaslui</option>
+            <option value="7">Murgeni, jud. Vaslui</option>
+            <option value="8">Siliștea, jud. Vaslui</option>
+          </select>
+        </div>
+
+        <button class="btn btn-light btn-block mb-2" style="max-width: 20rem;" onclick="startLife()">Ieși din mă-ta</button>
+
+        <p class="text-light">ATENȚIE: Acest joc este un pamflet, vă rugăm să îl tratați ca atare!</p>
+      </div>
+      <div id="game">
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">
+                <h5 id="viewPlayerName" class="card-title"></h5>
+                <h6 id="viewPlayerAge" class="card-subtitle mb-2 text-muted"></h6>
+                <p id="viewPlayerPlace" class="card-text"></p>
+              </div>
+              <div class="col-6">
+                <p id="viewPlayerMoney" class="display-4 text-right text-success"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <textarea id="eventsLog" rows="10" style="width: 100%;" readonly></textarea>
+
+        <div class="card mt-2">
+          <div class="card-body">
+            <nav class="nav nav-pills nav-justified">
+              <a class="nav-item nav-link" href="#" onclick="view_page('jobs')"><span class="fa fa-school mr-2"></span>Școală</a>
+              <a class="nav-item nav-link" href="#" onclick="view_page('assets')"><span class="fa fa-home mr-2"></span>Bunuri</a>
+              <a class="nav-item nav-link active" onclick="next()"><span class="fa fa-plus mr-2"></span>Avansează</a>
+              <a class="nav-item nav-link" href="#" onclick="view_page('relationships')"><span class="fa fa-user-friends mr-2"></span>Relații</a>
+              <a class="nav-item nav-link" href="#" onclick="view_page('activities')"><span class="fa fa-ellipsis-h mr-2"></span>Activități</a>
+            </nav>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <p id="viewPlayerHappiness" class="text-center mb-1">😃 <span class="badge badge-success"></span></p>
+              </div>
+              <div class="col-3">
+                <p id="viewPlayerHealth" class="text-center mb-1">🧡 <span class="badge badge-success"></span></p>
+              </div>
+              <div class="col-3">
+                <p id="viewPlayerCleverness" class="text-center mb-1">🧠 <span class="badge badge-primary"></span></p>
+              </div>
+              <div class="col-3">
+                <p id="viewPlayerLook" class="text-center mb-1">🤤 <span class="badge badge-success"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="activities">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title text-center"><span class="fa fa-ellipsis-h mr-2"></span>Activități</h5>
+          </div>
+        </div>
+        <div class="mb-2" style="overflow-y: scroll; height: 400px; width: 100%; background-color: white">
+          <ul id="activities-list" class="list-group list-group-flush">
+
+          </ul>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="view_page('game')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
+      </div>
+      <div id="relationships">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title text-center"><span class="fa fa-user-friends mr-2"></span>Relații</h5>
+          </div>
+        </div>
+        <div class="mb-2" style="overflow-y: scroll; height: 400px; width: 100%; background-color: white">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+          </ul>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="view_page('game')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
+      </div>
+      <div id="assets">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title text-center"><span class="fa fa-home mr-2"></span>Bunuri</h5>
+          </div>
+        </div>
+        <div class="mb-2" style="overflow-y: scroll; background-color: white">
+
+        </div>
+        <button class="btn btn-primary btn-block" onclick="view_page('game')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
+      </div>
+
+      <div id="eventModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="eventTitle" class="modal-title"></h5>
+            </div>
+            <div class="modal-body">
+              <p id="eventText"></p>
+              <button id="eventOption0" onclick="e.action(0)" class="btn btn-primary btn-block"></button>
+              <button id="eventOption1" onclick="e.action(1)" onclick="" class="btn btn-primary btn-block"></button>
+              <button id="eventOption2" onclick="e.action(2)" onclick="" class="btn btn-primary btn-block"></button>
+              <button id="eventOption3" onclick="e.action(3)" onclick="" class="btn btn-primary btn-block"></button>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="evModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="evTitle" class="modal-title"></h5>
+            </div>
+            <div class="modal-body">
+              <p id="evText"></p>
+              <button id="evBtn" onclick="$('#evModal').modal('hide');" class="btn btn-primary btn-block"></button>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="core/data.js"></script>
+      <script src="core/view.js"></script>
+      <script src="core/functions.js"></script>
+      <script src="core/player.js"></script>
+      <script src="core/event.js"></script>
+      <script src="core/actor.js"></script>
+
+      <script>
+        document.getElementById("eventsLog").value = "";
+
+        var COUNT_ACTORS = 0;
+        var COUNT_SIBLINGS = 0;
+
+        var VIEWED_NEWS = 0;
+
+        var player;
+        var actors = [];
+
+        var e;
+
+        var news_history = [];
+
+        var activitiesList = document.getElementById('activities-list');
+        for (let i = 0; i < MAX_ACTIVITIES; i ++)
+        {
+            let activitityItem = document.createElement('a');
+            activitityItem.setAttribute('id', 'activity' + i);
+            activitityItem.innerText = activities[i][ACTIVITY_NAME];
+            activitityItem.classList.add('list-group-item');
+            activitityItem.classList.add('disabled');
+            activitiesList.appendChild(activitityItem);
+        }
+
+        function startLife()
+        {
+            let playerFName = document.getElementById('inpPlayerFName').value;
+            let playerLName = document.getElementById('inpPlayerLName').value;
+
+            if (playerFName.length == 0)
+                playerFName = 'Sug';
+
+            if (playerLName.length == 0)
+                playerLName = 'Pula';
+
+            let playerGender = document.getElementById('selPlayerGender').value;
+            let playerPlace = document.getElementById('selPlayerBirthPlace').value;
+
+            view = 'game';
+
+            document.getElementById('game').style.display = 'block';
+            document.getElementById('new-life').style.display = 'none';
+
+            player = new Player(playerFName, playerLName, playerGender, playerPlace);
+
+            journal_log('0 ani');
+
+            let birthLog = 'Te-ai născut în ' + places[playerPlace][PLACE_NAME];
+
+            let familyFinancialStatus = getRndInteger(1, 100);
+
+            if (places[playerPlace][PLACE_POVERTY] >= 8 && places[playerPlace][PLACE_POVERTY] <= 10)
+            {
+                if (familyFinancialStatus >= 1 && familyFinancialStatus < 80)
+                    familyFinancialStatus = VERY_POOR;
+                else if (familyFinancialStatus >= 80 && familyFinancialStatus < 95)
+                    familyFinancialStatus = POOR;
+                else if (familyFinancialStatus >= 95 && familyFinancialStatus < 99)
+                    familyFinancialStatus = AVERAGE;
+                else if (familyFinancialStatus >= 99 && familyFinancialStatus <= 100)
+                    familyFinancialStatus = RICH;
+            }
+            else if (places[playerPlace][PLACE_POVERTY] >= 6 && places[playerPlace][PLACE_POVERTY] < 8)
+            {
+                if (familyFinancialStatus >= 1 && familyFinancialStatus < 40)
+                    familyFinancialStatus = VERY_POOR;
+                else if (familyFinancialStatus >= 40 && familyFinancialStatus < 80)
+                    familyFinancialStatus = POOR;
+                else if (familyFinancialStatus >= 80 && familyFinancialStatus < 85)
+                    familyFinancialStatus = AVERAGE;
+                else if (familyFinancialStatus >= 85 && familyFinancialStatus <= 95)
+                    familyFinancialStatus = RICH;
+                else if (familyFinancialStatus >= 95 && familyFinancialStatus <= 100)
+                    familyFinancialStatus = VERY_RICH;
+
+                familyFinancialStatus = POOR;
+            }
+            else if (places[playerPlace][PLACE_POVERTY] >= 4 && places[playerPlace][PLACE_POVERTY] < 6)
+            {
+                if (familyFinancialStatus >= 1 && familyFinancialStatus < 20)
+                    familyFinancialStatus = VERY_POOR;
+                else if (familyFinancialStatus >= 20 && familyFinancialStatus < 50)
+                    familyFinancialStatus = POOR;
+                else if (familyFinancialStatus >= 50 && familyFinancialStatus < 75)
+                    familyFinancialStatus = AVERAGE;
+                else if (familyFinancialStatus >= 75 && familyFinancialStatus <= 90)
+                    familyFinancialStatus = RICH;
+                else if (familyFinancialStatus >= 90 && familyFinancialStatus <= 100)
+                    familyFinancialStatus = VERY_RICH;
+            }
+            else if (places[playerPlace][PLACE_POVERTY] >= 2 && places[playerPlace][PLACE_POVERTY] < 4)
+            {
+                if (familyFinancialStatus >= 1 && familyFinancialStatus < 10)
+                    familyFinancialStatus = VERY_POOR;
+                else if (familyFinancialStatus >= 10 && familyFinancialStatus < 30)
+                    familyFinancialStatus = POOR;
+                else if (familyFinancialStatus >= 30 && familyFinancialStatus < 60)
+                    familyFinancialStatus = AVERAGE;
+                else if (familyFinancialStatus >= 60 && familyFinancialStatus <= 85)
+                    familyFinancialStatus = RICH;
+                else if (familyFinancialStatus >= 85 && familyFinancialStatus <= 100)
+                    familyFinancialStatus = VERY_RICH;
+            }
+            else if (places[playerPlace][PLACE_POVERTY] >= 0 && places[playerPlace][PLACE_POVERTY] < 2)
+            {
+                if (familyFinancialStatus >= 1 && familyFinancialStatus < 5)
+                    familyFinancialStatus = VERY_POOR;
+                else if (familyFinancialStatus >= 10 && familyFinancialStatus < 20)
+                    familyFinancialStatus = POOR;
+                else if (familyFinancialStatus >= 20 && familyFinancialStatus < 50)
+                    familyFinancialStatus = AVERAGE;
+                else if (familyFinancialStatus >= 50 && familyFinancialStatus <= 80)
+                    familyFinancialStatus = RICH;
+                else if (familyFinancialStatus >= 80 && familyFinancialStatus <= 100)
+                    familyFinancialStatus = VERY_RICH;
+            }
+
+            let motherFName = femaleNames[getRndInteger(0, MAX_FEMALE_NAMES - 1)];
+            let motherAge = getRndInteger(18, 35) - Math.floor(places[playerPlace][PLACE_POVERTY] * 0.5);
+
+            let fatherFName = maleNames[getRndInteger(0, MAX_MALE_NAMES - 1)];
+            let fatherAge = getRndInteger(21, 40) - Math.floor(places[playerPlace][PLACE_POVERTY] * 0.3);
+
+            let siblings = 0;
+
+            if (familyFinancialStatus == VERY_POOR)
+            {
+                if (motherAge >= 16)
+                    siblings = Math.min(12, getRndInteger(0, motherAge - 16));
+
+                birthLog = birthLog + ', într-o familie foarte săracă.';
+            }
+            else if (familyFinancialStatus == POOR)
+            {
+                if (motherAge >= 19)
+                    siblings = Math.min(6, getRndInteger(0, motherAge - 19));
+
+                birthLog = birthLog + ', într-o familie săracă.';
+            }
+            else if (familyFinancialStatus == AVERAGE)
+            {
+                if (motherAge >= 24)
+                    siblings = Math.min(3, getRndInteger(0, motherAge - 24));
+            }
+            else if (familyFinancialStatus == RICH)
+            {
+                if (motherAge >= 28)
+                    siblings = Math.min(3, getRndInteger(0, motherAge - 28));
+
+                birthLog = birthLog + ', într-o familie bogată.';
+            }
+            else if (familyFinancialStatus == VERY_RICH)
+            {
+                if (motherAge >= 32)
+                    siblings = Math.min(3, getRndInteger(0, motherAge - 32));
+
+                birthLog = birthLog + ', într-o familie foarte bogată.';
+            }
+
+            journal_log(birthLog);
+
+            /* Mother */
+            actors[COUNT_ACTORS ++] = new Actor(motherFName, playerLName, motherAge, FEMALE, MOTHER, familyFinancialStatus);
+            journal_log('Mă-ta e ' + actors[0].fName + ' în vârstă de ' + actors[0].Age + ' ani.');
+
+            /* Father */
+            actors[COUNT_ACTORS ++] = new Actor(fatherFName, playerLName, fatherAge, MALE, FATHER, familyFinancialStatus);
+            journal_log('Tac-tu e ' + actors[1].fName + ' în vârstă de ' + actors[1].Age + ' ani.');
+
+            for (var i = 0; i < siblings; i ++)
+            {
+                let Gender = getRndInteger(MALE, FEMALE);
+                let Age = getRndInteger(1, Math.floor(motherAge / 4));
+                let Name;
+
+                if (Gender == FEMALE)
+                {
+                    Name = femaleNames[getRndInteger(0, MAX_FEMALE_NAMES - 1)];
+                    journal_log('Ai o soră ' + Name + ' în vârstă de ' + Age + ' ani.');
+                }
+                else
+                {
+                    Name = maleNames[getRndInteger(0, MAX_MALE_NAMES - 1)];
+                    journal_log('Ai un frate ' + Name + ' în vârstă de ' + Age + ' ani.');
+                }
+
+                actors[COUNT_ACTORS ++] = new Actor(Name, playerLName, Age, Gender, SIBLING, familyFinancialStatus);
+                COUNT_SIBLINGS ++;
+            }
+
+            updateInfoBar();
+            updateStatsBar();
+        }
+
+        function next()
+        {
+            player.ageUp();
+            journal_log('\r\n' + player.Age + ' ani');
+
+            if (player.Age >= 2 && player.Age <= 6)
+            {
+                let r = getRndInteger(1, 6);
+
+                switch (r)
+                {
+                    case 1:
+                    {
+                        let friendName = maleNames[getRndInteger(0, MAX_FEMALE_NAMES - 1)];
+                        e = new Event("⚽ Fotbal", "Vecinul tău " + friendName + " te-a chemat să jucați fotbal în fața blocului.", "FOOTBALL_CALLOUT", "Acceptă", "Refuză-l și joacă-te Roblox");
+                        e.view();
+                        break;
+                    }
+
+                    case 3:
+                    {
+                        e = new Event("💉 Vaccin", "Medicul se apropie cu vaccinul de tine, pregătit să te imunizeze.", "VACCINATION_TIME", "Stai cuminte și acceptă-ți soarta", "Urlă din toți plămânii", "Lovește medicul");
+                        e.view();
+                        break;
+                    }
+
+                    case 6:
+                    {
+                        e = new Event("🆘 Urgență majoră", "În timp ce erai în fața blocului și te jucai cu prietenii, ți-a venit să te piși.", "BATHROOM_EMERGENCY", "Urcă repede în casă și du-te la baie", "Ține-te până te duci acasă", "Găsește un loc retras și urinează-te");
+                        e.view();
+                        break;
+                    }
+                }
+            }
+
+            for (let i = 0; i < MAX_ACTIVITIES; i ++)
+            {
+                let activitityItem = document.getElementById('activity' + i);
+                if (player.Age >= activities[i][ACTIVITY_AGE]) {
+                    activitityItem.classList.remove('disabled');
+                    activitityItem.setAttribute('onclick', 'activity_action(' + activities[i][ACTIVITY_ID] + ')');
+                }
+            }
+
+            if (VIEWED_NEWS < MAX_NEWS)
+            {
+                let view_news = getRndInteger(1, 4);
+
+                if (view_news == 1)
+                {
+                    let nws;
+                    let w;
+
+                    do
+                    {
+                       w = false;
+
+                       nws = getRndInteger(0, MAX_NEWS - 1);
+
+                       for (var i = 0; i < VIEWED_NEWS; i ++)
+                          if (news_history[i] == nws)
+                              w = true;
+
+                    } while (w);
+
+                    journal_log(news[nws]);
+                    news_history[VIEWED_NEWS ++] = nws;
+                }
+            }
+
+            for (var i = 0; i < COUNT_ACTORS; i ++)
+                actors[i].ageUp();
+        }
+
+        function updateInfoBar()
+        {
+            document.getElementById('viewPlayerName').innerHTML = player.FName + ' ' + player.LName;
+            document.getElementById('viewPlayerAge').innerHTML = player.Age + ' ani';
+            document.getElementById('viewPlayerPlace').innerHTML = places[player.Place][PLACE_NAME];
+            document.getElementById('viewPlayerMoney').innerHTML = player.Money + ' lei';
+        }
+
+        function updateStatsBar()
+        {
+            document.getElementById('viewPlayerHappiness').innerHTML = '😃 <span class="badge badge-success">' + player.Happiness + '</span>';
+            document.getElementById('viewPlayerHealth').innerHTML = '🧡 <span class="badge badge-success">' + player.Health + '</span>';
+            document.getElementById('viewPlayerCleverness').innerHTML = '🧠 <span class="badge badge-primary">' + player.Cleverness + '</span>';
+            document.getElementById('viewPlayerLook').innerHTML = '🤤 <span class="badge badge-success">' + player.Look + '</span>';
+        }
+      </script>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
