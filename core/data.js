@@ -12,9 +12,16 @@ const MAX_NEWS = 16;
 
 const MAX_ACTIVITIES = 14;
 
+const PAGE = 1;
+const DIALOG = 2;
+
+const MAX_FESTIVALS = 8;
+const MAX_MOVIES = 10;
+
 const ACTIVITY_NAME = 0;
 const ACTIVITY_ID = 1;
-const ACTIVITY_AGE = 2;
+const ACTIVITY_VIEW = 2;
+const ACTIVITY_AGE = 3;
 
 const MOTHER = 1;
 const FATHER = 2;
@@ -39,22 +46,47 @@ var places = [
   ["Siliștea, jud. Vaslui", 10, 6]
 ];
 
+var movies = [
+  /* [Movie], [Category] */
+  ["Mamaia Bici", "Comedie"],
+  ["5Gay: Un altfel de Paște", "Dramă"],
+  ["Once upon a time in Ferentari", "Comedie"],
+  ["SOV, The Wolf of Dâmbovița", "Biografic"],
+  ["Biruința", "Dramă"],
+  ["Lista lui Vadim", "Comedie"],
+  ["Moartea domnului Iliescu", "Comedie"],
+  ["Mihaela, dragostea mea", "Romantic"],
+  ["Singur acas", "Acțiune"],
+  ["Vulpița și Viorel la mare și la munte", "Dramă"]
+]
+
+var festivals = [
+  ["NESPUS", 1000, 1],
+  ["#Niciodatămarea", 800, 0.9],
+  ["Castelul Electric", 600, 0.8],
+  ["xSEGA Festival", 500, 0.8],
+  ["Valuri de soare", 450, 0.8],
+  ["După dealuri", 250, 0.6],
+  ["PENInSula", 80, 0.4],
+  ["Festivalul Verii Bârlad", 0, 0.1]
+]
+
 var activities = [
-  /* [Activity], [ID], [MinAge] */
-  ["👨‍⚕️ Consult medical", "MEDICAL_ASSISTANCE", 1],
-  ["😈 Comite o infracțiune", "COMMIT_CRIME", 14],
-  ["👯‍♀️ Marchează la vagaboante", "GO_TO_BITCHES", 18],
-  ["🎫 Festivale", "GO_TO_FESTIVALS", 16],
-  ["🎬 Cinema Victoria", "GO_TO_CINEMA", 8],
-  ["❤️ Găsește-ți dragostea", "FIND_A_DATE", 18],
-  ["💰 6/49", "PLAY_LOTO", 18],
-  ["🏖️ Vacanță", "GO_TO_HOLIDAY", 16],
-  ["⛪ Biserică", "GO_TO_CHURCH", 7],
-  ["✂️ Operații estetice", "PLASTIC_SURGERY", 18],
-  ["🏳️‍🌈 Orientare", "DECLARE_SEXUALITY", 16],
-  ["🚗 Școală de șoferi", "GO_TO_DRIVERS_SCHOOL", 18],
-  ["📚 Bibliotecă", "GO_TO_LIBRARY", 12],
-  ["🏋️ Sală", "GO_TO_GYM", 16]
+  /* [Activity], [ID], [View] [MinAge] */
+  ["👨‍⚕️ Consult medical", "MEDICAL_ASSISTANCE", PAGE, 1],
+  ["😈 Comite o infracțiune", "COMMIT_CRIME", PAGE, 14],
+  ["👯‍♀️ Marchează la vagaboante", "bitches", PAGE, 18],
+  ["🎫 Festivale", "festivals", PAGE, 16],
+  ["🎬 Cinema Victoria", "movie", DIALOG, 8],
+  ["❤️ Găsește-ți dragostea", "FIND_A_DATE", PAGE, 18],
+  ["💰 6/49", "PLAY_LOTO", DIALOG, 18],
+  ["🏖️ Vacanță", "GO_TO_HOLIDAY", PAGE, 16],
+  ["⛪ Biserică", "GO_TO_CHURCH", DIALOG, 7],
+  ["✂️ Operații estetice", "PLASTIC_SURGERY", PAGE, 18],
+  ["🏳️‍🌈 Orientare", "DECLARE_SEXUALITY", PAGE, 16],
+  ["🚗 Școală de șoferi", "GO_TO_DRIVERS_SCHOOL", PAGE, 18],
+  ["📚 Bibliotecă", "GO_TO_LIBRARY", PAGE, 12],
+  ["🏋️ Sală", "GO_TO_GYM", PAGE, 16]
 ];
 
 var news = [

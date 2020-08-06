@@ -35,17 +35,6 @@ class Event {
           document.getElementById('eventOption' + i).style.display = 'none';
   }
 
-  ev(Text, btnText) {
-    $("#evModal").modal({
-        backdrop: 'static',
-        keyboard: false
-    });
-
-    document.getElementById('evTitle').innerHTML = this.Title;
-    document.getElementById('evText').innerHTML = Text;
-    document.getElementById('evBtn').textContent = btnText;
-  }
-
   action(o) {
       switch (this.Action) {
           case 'FOOTBALL_CALLOUT':
@@ -106,6 +95,8 @@ class Event {
 
               break;
           }
+
+          default: { this.kill(); break; }
       }
   }
 }

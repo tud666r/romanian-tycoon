@@ -16,13 +16,18 @@ class Player {
       this.Age ++;
   }
 
+  giveMoney(value) {
+      this.Money += value;
+      document.getElementById('viewPlayerMoney').innerHTML = this.Money + ' lei';
+  }
+
   giveHappiness(value) {
       if (this.Happiness + value > 10)
           this.Happiness = 10;
       else
           this.Happiness += value;
 
-      document.getElementById('viewPlayerHappiness').innerHTML = '😃 <span class="badge badge-success">' + player.Happiness + '</span>';
+      document.getElementById('viewPlayerHappiness').innerHTML = '😃 <span class="badge badge-success">' + this.Happiness + '</span>';
   }
 
   giveHealth(value) {

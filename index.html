@@ -120,6 +120,32 @@
         </div>
         <button class="btn btn-primary btn-block" onclick="view_page('game')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
       </div>
+      <div id="bitches">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title text-center">👯‍ Vagaboante</h5>
+          </div>
+        </div>
+        <div class="mb-2" style="overflow-y: scroll; height: 400px; width: 100%; background-color: white">
+          <ul id="bitchies-list" class="list-group list-group-flush">
+
+          </ul>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="view_page('activities')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
+      </div>
+      <div id="festivals">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title text-center">🎫 Festivale</h5>
+          </div>
+        </div>
+        <div class="mb-2" style="overflow-y: scroll; height: 400px; width: 100%; background-color: white">
+          <ul id="festivals-list" class="list-group list-group-flush">
+
+          </ul>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="view_page('activities')"><span class="fa fa-angle-left mr-2"></span>Înapoi</button>
+      </div>
       <div id="relationships">
         <div class="card mb-2">
           <div class="card-body">
@@ -168,28 +194,14 @@
         </div>
       </div>
 
-      <div id="evModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 id="evTitle" class="modal-title"></h5>
-            </div>
-            <div class="modal-body">
-              <p id="evText"></p>
-              <button id="evBtn" onclick="$('#evModal').modal('hide');" class="btn btn-primary btn-block"></button>
-            </div>
-            <div class="modal-footer">
-            </div>
-          </div>
-        </div>
-      </div>
-
       <script src="core/data.js"></script>
       <script src="core/view.js"></script>
       <script src="core/functions.js"></script>
       <script src="core/player.js"></script>
       <script src="core/event.js"></script>
       <script src="core/actor.js"></script>
+      <script src="core/bitch.js"></script>
+      <script src="core/goto.js"></script>
 
       <script>
         document.getElementById("eventsLog").value = "";
@@ -199,12 +211,17 @@
 
         var VIEWED_NEWS = 0;
 
+        var VISITED_FESTIVALS = 0;
+
         var player;
         var actors = [];
+        var bitches = [];
 
         var e;
+        var movie;
 
         var news_history = [];
+        var festivals_history = [];
 
         var activitiesList = document.getElementById('activities-list');
         for (let i = 0; i < MAX_ACTIVITIES; i ++)
@@ -215,6 +232,17 @@
             activitityItem.classList.add('list-group-item');
             activitityItem.classList.add('disabled');
             activitiesList.appendChild(activitityItem);
+        }
+
+        let festivalsList = document.getElementById('festivals-list');
+        for (let i = 0; i < MAX_FESTIVALS; i ++)
+        {
+            let festival = document.createElement('a');
+            festival.setAttribute('id', 'festival' + i);
+            festival.innerHTML = festivals[i][0] + '<span class="badge badge-success ml-2">' + festivals[i][1] + ' lei</span>'
+            festival.classList.add('list-group-item');
+
+            festivalsList.appendChild(festival);
         }
 
         function startLife()
@@ -422,13 +450,54 @@
                 }
             }
 
+            movie = new Event("🎬 Cinema", "Ești la cinema. " + festivals[fest][0] + ".", "GO_TO_MOVIE", "Vezi", "Neah!");
+
             for (let i = 0; i < MAX_ACTIVITIES; i ++)
             {
                 let activitityItem = document.getElementById('activity' + i);
                 if (player.Age >= activities[i][ACTIVITY_AGE]) {
                     activitityItem.classList.remove('disabled');
-                    activitityItem.setAttribute('onclick', 'activity_action(' + activities[i][ACTIVITY_ID] + ')');
+
+                    if (activities[i][ACTIVITY_VIEW] == "PAGE")
+                        activitityItem.setAttribute('onclick', 'view_page("' + activities[i][ACTIVITY_ID] + '")');
+                    else
+                        activitityItem.setAttribute('onclick', activities[i][ACTIVITY_ID] + '.view()');
                 }
+            }
+
+            for (let i = 0; i < MAX_FESTIVALS; i ++)
+            {
+                let festival = document.getElementById('festival' + i);
+                if (player.Money >= festivals[i][1]) {
+                    festival.classList.remove('disabled');
+                    festival.setAttribute('onclick', 'gotofestival(' + i + ')');
+                }
+                else
+                    festival.classList.add('disabled');
+            }
+
+            for (let i = 0; i < bitches.length; i ++)
+                 document.getElementById('bitchOffer' + i).remove();
+
+            let marketSize = getRndInteger(1, 6);
+
+            let bitchiesList = document.getElementById('bitchies-list');
+            for (let i = 0; i < marketSize; i ++)
+            {
+                bitches[i] = new Bitch(femaleNames[getRndInteger(0, MAX_FEMALE_NAMES - 1)], getRndInteger(1, 10));
+
+                let bitchOffer = document.createElement('a');
+                bitchOffer.setAttribute('id', 'bitchOffer' + i);
+                bitchOffer.setAttribute('onclick', 'bitches[' + i + '].accept()');
+                bitchOffer.innerHTML = bitches[i].Name + '<span class="badge badge-success ml-2">' + bitches[i].Price + ' lei</span>'
+                bitchOffer.innerHTML = bitchOffer.innerHTML + '<span class="badge badge-primary ml-2">🤤 ' + bitches[i].Look + '</span>';
+                bitchOffer.innerHTML = bitchOffer.innerHTML + '<span class="badge badge-secondary ml-2">' + bitches[i].Age + ' ani</span>';
+                bitchOffer.classList.add('list-group-item');
+
+                if (player.Money < bitches[i].Price)
+                  bitchOffer.classList.add('disabled');
+
+                bitchiesList.appendChild(bitchOffer);
             }
 
             if (VIEWED_NEWS < MAX_NEWS)
